@@ -33,16 +33,6 @@ brew bundle dump
 mv Brewfile /Users/$USER/Desktop/dotFile/homebrew
 ```
 
-### Crontab을 사용하여 매일 백업합니다.
-
-```zsh
-# Open the crontab
-crontab -e
-
-# Add the following line (Backup the Homebrew Bundle everyday at 00:00)
-0 0 * * * /Users/$USER/Desktop/dotFile/homebrew/backup.sh
-```
-
 ### 복원하기 위해서는 다음과 같이 진행합니다.
 
 ```zsh
@@ -131,4 +121,14 @@ cp -r /Users/$USER/Desktop/dotFile/zsh/.zshrc /Users/$USER
 
 ```zsh
 sh /Users/$USER/Desktop/dotFile/backup.sh
+```
+
+### Crontab을 사용하여 매일 백업합니다.
+
+```zsh
+# Open the crontab
+crontab -e
+
+# Add the following line (Backup the Homebrew Bundle everyday at 12:00)
+0 12 * * * /bin/sh /Users/$USER/Desktop/dotFile/backup.sh
 ```
