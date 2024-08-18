@@ -115,6 +115,15 @@ cp -r /Users/$USER/.zshrc /Users/$USER/Desktop/dotFile/zsh/.zshrc
 cp -r /Users/$USER/Desktop/dotFile/zsh/.zshrc /Users/$USER
 ```
 
+# Shell :: FastFetch
+
+### FastFetch 설정을 백업합니다.
+
+```zsh
+# Copy the FastFetch settings to the dotFile directory
+cp -r /Users/sukbeom/.config/fastfetch /Users/sukbeom/Desktop/dotFile/fastfetch
+```
+
 # Script
 
 `backup.sh` 파일을 통해 백업을 진행합니다.

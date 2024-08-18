@@ -25,6 +25,11 @@ echo "Backing up the fonts..."
 sh fonts/fonts.sh
 sleep 1
 
+# Backup the fastfetch
+echo "Backing up the fastfetch..."
+sh fastfetch/fastfetch.sh
+sleep 1
+
 # today's date
 today=$(date +"%Y-%m-%d")
 
