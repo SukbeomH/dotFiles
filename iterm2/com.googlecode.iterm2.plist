@@ -1168,7 +1168,7 @@
 			<key>Non-ASCII Ligatures</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>MonoplexKRWideNerd-BoldItalic 15</string>
+			<string>BlexMonoNFP-BoldItalic 15</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -1268,7 +1268,7 @@
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Use Non-ASCII Font</key>
-			<true/>
+			<false/>
 			<key>Use Separate Colors for Light and Dark Mode</key>
 			<true/>
 			<key>Vertical Spacing</key>
