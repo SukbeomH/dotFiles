@@ -26,26 +26,7 @@ quit-after-last-window-closed = true
 # 바이트 단위. iTerm2 의 무제한 스크롤백에 가깝게 넉넉히 둔다.
 scrollback-limit = 100000000
 
-# --- 색상 (iTerm2 기본 프로필: 검정 배경 + Tango 팔레트) ---
-background = #000000
-foreground = #ffffff
-cursor-color = #ffffff
-cursor-text = #000000
-selection-background = #b5d5ff
-selection-foreground = #000000
-palette = 0=#000000
-palette = 1=#cc0000
-palette = 2=#4e9a06
-palette = 3=#c4a000
-palette = 4=#3465a4
-palette = 5=#75507b
-palette = 6=#06989a
-palette = 7=#d3d7cf
-palette = 8=#555753
-palette = 9=#ef2929
-palette = 10=#8ae234
-palette = 11=#fce94f
-palette = 12=#729fcf
-palette = 13=#ad7fa8
-palette = 14=#34e2e2
-palette = 15=#eeeeec
+# --- 색상 ---
+# starship 프롬프트와 같은 팔레트. 내장 테마 목록: ghostty +list-themes
+# 다른 톤: Catppuccin Mocha / Frappe / Latte. 이 줄을 지우면 Ghostty 기본 색이 된다.
+theme = Catppuccin Macchiato

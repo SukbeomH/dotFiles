@@ -86,11 +86,12 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 | `zsh/.zshrc` | `~/.zshrc` | 히스토리, 자동완성, 플러그인, starship |
 | `zsh/.zprofile` | `~/.zprofile` | Homebrew 와 `~/.local/bin` PATH |
 | `zsh/aliases.zsh` | `.zshrc` 가 읽음 | git, kubectl alias |
-| `starship/starship.toml` | `~/.config/starship.toml` | 프롬프트 |
+| `starship/starship.toml` | `~/.config/starship.toml` | 프롬프트 기본 테마 (아래 "프롬프트 테마" 참고) |
+| `starship/frame.toml`, `starship/minimal.toml` | 필요할 때 지정 | 다른 프롬프트 테마 |
 | `fastfetch/config.jsonc` | `~/.config/fastfetch/config.jsonc` | 터미널 시작 화면 |
 | `git/.gitconfig` | `~/.gitconfig` | 공통 git 설정 (`~/.gitconfig.local` 을 include) |
 | `git/ignore` | `~/.config/git/ignore` | 전역 gitignore |
-| `ghostty/config` | `~/.config/ghostty/config` | Ghostty 터미널 (폰트, 색상, 창) || `Brewfile*` | | macOS 패키지 목록 |
+| `ghostty/config` | `~/.config/ghostty/config` | Ghostty 터미널 (폰트, Catppuccin Macchiato 색상, 창) || `Brewfile*` | | macOS 패키지 목록 |
 | `apt/*.txt` | | Debian / Ubuntu 패키지 목록 |
 | `macos.sh` | | macOS 기본 설정 |
 
@@ -130,6 +131,29 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 프롬프트가 느리면 `starship timings` 로 모듈별 시간을 확인합니다.
 
 플러그인이나 도구가 설치돼 있지 않으면 해당 줄만 건너뛰므로, 패키지 설치 전에도 셸은 오류 없이 뜹니다.
+
+### 프롬프트 테마
+
+| 파일 | 모양 | Nerd Font |
+| --- | --- | --- |
+| `starship/starship.toml` (기본) | 첫째 줄은 선으로 그린 틀, 둘째 줄은 Catppuccin Macchiato powerline | 필요 |
+| `starship/frame.toml` | 선으로 틀을 그린 3줄 구성 (a3chron 의 Stellar `ctp-blue` 바탕, MIT) | 불필요 |
+| `starship/minimal.toml` | 배경색과 아이콘 없는 단순한 프롬프트 | 불필요 |
+
+기본 테마는 starship 공식 프리셋 `catppuccin-powerline` 의 색 순서를 따릅니다.
+
+- 첫째 줄(시스템, 배경 없음): 사용자@호스트, 로컬 IP, 셸, CPU, RAM, DISK, 배터리, 시각
+- 둘째 줄(작업): OS·디렉터리, git, 언어 런타임, Kubernetes·Docker·direnv, 2초 넘은 명령의 실행 시간
+- 셋째 줄: 입력
+
+CPU 는 1분 평균 부하를 코어 수로 나눈 비율이고, DISK 는 루트 볼륨 사용률입니다. 이 둘은 프롬프트마다 명령을 실행합니다(각 25ms 안팎, 병렬).
+첫째 줄에 로컬 IP 가 항상 보이므로, 화면을 공유할 때 가리려면 `starship.toml` 의 `[localip]` 를 `disabled = true` 로 바꿉니다.
+
+바꾸는 방법:
+
+- 테마 전환: `~/.zshrc.local` 에 `export STARSHIP_CONFIG=~/dotFiles/starship/frame.toml` 을 넣습니다.
+- 색 조합: 각 파일의 `palette` 를 `catppuccin_mocha`, `catppuccin_frappe`, `catppuccin_latte` 로 바꿉니다. Ghostty 는 `ghostty/config` 의 `theme` 을 같은 이름으로 맞춥니다.
+- 다른 공식 프리셋 미리 보기: `starship preset --list` 로 목록을 보고, `starship preset pastel-powerline -o /tmp/p.toml` 로 받은 뒤 `STARSHIP_CONFIG=/tmp/p.toml zsh` 로 띄워 봅니다.
 
 ### 폰트
 

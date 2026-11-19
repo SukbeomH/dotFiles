@@ -171,5 +171,10 @@ unfunction _plugin
 # 로그인 셸(macOS 터미널, SSH)이거나 최상위 셸(Linux 터미널)일 때만 출력한다
 if [[ -z $DOTFILES_NO_GREETING ]] && [[ -o login || $SHLVL -le 1 ]]; then
   (( $+commands[fastfetch] )) && fastfetch
-  (( $+commands[fortune] )) && { fortune; echo; }
+  if (( $+commands[fortune] )); then
+    # fastfetch 와 fortune 사이에 빈 줄 2개
+    (( $+commands[fastfetch] )) && print '\n'
+    fortune
+    echo
+  fi
 fi

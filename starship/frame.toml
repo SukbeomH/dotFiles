@@ -1,0 +1,248 @@
+# Starship 프롬프트: 선으로 틀을 그린 3줄 구성 (Catppuccin)
+# a3chron 의 "blue" 테마(Stellar 의 ctp-blue)를 바탕으로 모듈을 조정했다.
+#   원본: https://github.com/a3chron/starship-theme-switcher  (MIT License, Copyright (c) 2025 a3chron)
+# 배경색을 쓰지 않고 선 문자만 쓰므로 Nerd Font 가 없어도 된다.
+#   전환: ~/.zshrc.local 에  export STARSHIP_CONFIG=~/dotFiles/starship/frame.toml
+"$schema" = 'https://starship.rs/config-schema.json'
+
+palette = 'catppuccin_macchiato'
+
+format = """
+[╭─ $shell─────────────── $memory_usage ──╌╌ $python$nodejs$golang$rust$kubernetes$direnv $fill ╌╌─╮](overlay0)
+[├╌](overlay0)$sudo$username$hostname $directory$read_only$git_branch$git_metrics [$fill $cmd_duration ┘](overlay0)
+[╰─ $battery $character](overlay0) """
+
+scan_timeout = 10
+command_timeout = 1000
+add_newline = true
+
+[shell]
+fish_indicator = 'fish'
+zsh_indicator = 'zsh'
+bash_indicator = 'bash'
+unknown_indicator = 'unknwn'
+style = 'teal'
+disabled = false
+
+[username]
+style_user = 'teal bold'
+format = ' [$user]($style)'
+disabled = false
+show_always = true
+
+[sudo]
+format = ' [sudo](bold red)'
+disabled = false
+
+[python]
+symbol = ''
+format = '[Python](bold mauve) [$version [\($virtualenv\)](dimmed mauve)](dimmed mauve)'
+pyenv_version_name = true
+detect_files = ['requirements.txt', '__init.py__', 'setup.py']
+detect_extensions = ['py']
+detect_folders = []
+
+[nodejs]
+format = '[Node](bold lavender) [$version](bold dimmed lavender) '
+
+[golang]
+format = '[Go](bold lavender) [$version](bold dimmed lavender) '
+
+[memory_usage]
+disabled = false
+threshold = -1
+format = '[$ram_pct]($style)'
+symbol = ''
+style = 'dimmed blue'
+
+[hostname]
+ssh_only = true
+ssh_symbol = 'ssh:'
+format = '[@$ssh_symbol](bold dimmed maroon)[$hostname](bold dimmed sapphire)'
+trim_at = ''
+disabled = false
+
+[git_metrics]
+disabled = false
+format = ' [+$added](bold teal)[-$deleted](bold pink)'
+
+[git_branch]
+format = '[$branch(:$remote_branch)]($style)'
+style = 'bold pink'
+
+[fill]
+symbol = ' '
+style = 'bold base'
+
+# time of command
+[cmd_duration]
+min_time = 2_000
+format = ' [$duration](bold dimmed flamingo)'
+
+[directory]
+fish_style_pwd_dir_length = 5
+disabled = false
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = '…/'
+read_only = ' read-only'
+read_only_style = 'bold dimmed mauve'
+style = 'bold mauve'
+
+# prompt char
+[character]
+success_symbol = '[──╌╌](overlay0)'
+error_symbol = '[──╌╌](red)'
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+# battery
+[battery]
+
+full_symbol = '● '
+charging_symbol = '◉ '
+discharging_symbol = '◯ '
+
+[[battery.display]]
+threshold = 20
+style = 'red'
+
+[[battery.display]]
+threshold = 100
+style = 'teal'
+
+[rust]
+format = '[Rust](bold peach) [$version](bold dimmed peach) '
+
+[kubernetes]
+disabled = false
+format = '[k8s](bold blue) [$context( \($namespace\))](bold dimmed blue) '
+
+[direnv]
+disabled = false
+format = '[direnv](bold yellow) [$loaded](bold dimmed yellow) '
+loaded_msg = 'on'
+unloaded_msg = 'off'
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[azure]
+disabled = true
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+[palettes.catppuccin_macchiato]
+rosewater = "#f4dbd6"
+flamingo = "#f0c6c6"
+pink = "#f5bde6"
+mauve = "#c6a0f6"
+red = "#ed8796"
+maroon = "#ee99a0"
+peach = "#f5a97f"
+yellow = "#eed49f"
+green = "#a6da95"
+teal = "#8bd5ca"
+sky = "#91d7e3"
+sapphire = "#7dc4e4"
+blue = "#8aadf4"
+lavender = "#b7bdf8"
+text = "#cad3f5"
+subtext1 = "#b8c0e0"
+subtext0 = "#a5adcb"
+overlay2 = "#939ab7"
+overlay1 = "#8087a2"
+overlay0 = "#6e738d"
+surface2 = "#5b6078"
+surface1 = "#494d64"
+surface0 = "#363a4f"
+base = "#24273a"
+mantle = "#1e2030"
+crust = "#181926"
+
+[palettes.catppuccin_frappe]
+rosewater = "#f2d5cf"
+flamingo = "#eebebe"
+pink = "#f4b8e4"
+mauve = "#ca9ee6"
+red = "#e78284"
+maroon = "#ea999c"
+peach = "#ef9f76"
+yellow = "#e5c890"
+green = "#a6d189"
+teal = "#81c8be"
+sky = "#99d1db"
+sapphire = "#85c1dc"
+blue = "#8caaee"
+lavender = "#babbf1"
+text = "#c6d0f5"
+subtext1 = "#b5bfe2"
+subtext0 = "#a5adce"
+overlay2 = "#949cbb"
+overlay1 = "#838ba7"
+overlay0 = "#737994"
+surface2 = "#626880"
+surface1 = "#51576d"
+surface0 = "#414559"
+base = "#303446"
+mantle = "#292c3c"
+crust = "#232634"
+
+[palettes.catppuccin_latte]
+rosewater = "#dc8a78"
+flamingo = "#dd7878"
+pink = "#ea76cb"
+mauve = "#8839ef"
+red = "#d20f39"
+maroon = "#e64553"
+peach = "#fe640b"
+yellow = "#df8e1d"
+green = "#40a02b"
+teal = "#179299"
+sky = "#04a5e5"
+sapphire = "#209fb5"
+blue = "#1e66f5"
+lavender = "#7287fd"
+text = "#4c4f69"
+subtext1 = "#5c5f77"
+subtext0 = "#6c6f85"
+overlay2 = "#7c7f93"
+overlay1 = "#8c8fa1"
+overlay0 = "#9ca0b0"
+surface2 = "#acb0be"
+surface1 = "#bcc0cc"
+surface0 = "#ccd0da"
+base = "#eff1f5"
+mantle = "#e6e9ef"
+crust = "#dce0e8"
