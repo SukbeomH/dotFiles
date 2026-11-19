@@ -15,7 +15,14 @@ if [[ -z $HOMEBREW_PREFIX ]]; then
   unset _brew
 fi
 
+# 최소 설치 Linux 는 LANG 이 비어 있어 한글과 아이콘이 깨진다
+[[ $OSTYPE == linux* && -z $LANG && -z $LC_ALL ]] && export LANG=C.UTF-8
+
+# Linux 터미널은 보통 비로그인 셸로 열려 .zprofile 을 읽지 않으므로 여기서도 넣는다.
+# /usr/games 는 Debian 계열에서 fortune 이 설치되는 위치다.
 typeset -U path fpath
+path=("$HOME/.local/bin" $path)
+[[ -d /usr/games ]] && path+=(/usr/games)
 
 # ------------------------------------------------------------------------------
 # 1. History
@@ -76,7 +83,15 @@ if (( $+commands[fzf] )); then
   fi
   # bat 이 있으면 Ctrl-T 에서 파일 내용을 미리 본다
   (( $+commands[bat] )) && export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:200 {}'"
-  source <(fzf --zsh 2>/dev/null)
+  if fzf --zsh &>/dev/null; then
+    source <(fzf --zsh)
+  else
+    # fzf 0.48 미만(Debian 12 등)은 --zsh 가 없어 패키지에 든 스크립트를 읽는다
+    for _f in /usr/share/doc/fzf/examples/{key-bindings,completion}.zsh; do
+      [[ -r $_f ]] && source "$_f"
+    done
+    unset _f
+  fi
 fi
 
 # ripgrep 기본 옵션
@@ -114,18 +129,21 @@ _cached_source uv generate-shell-completion zsh
 [[ -f $HOME/.zshrc.local ]] && source "$HOME/.zshrc.local"
 
 # ------------------------------------------------------------------------------
-# 8. 플러그인 (Homebrew 로 설치, 로드 순서 중요)
+# 8. 플러그인 (Homebrew 또는 apt 로 설치, 로드 순서 중요)
 # ------------------------------------------------------------------------------
+# 찾으면 읽고 0, 없으면 1 을 돌려준다
 _plugin() {
   local dir
-  for dir in "$HOMEBREW_PREFIX/share" /usr/share /usr/share/zsh/plugins; do
+  for dir in ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share} /usr/share /usr/share/zsh/plugins; do
     [[ -r $dir/$1 ]] && { source "$dir/$1"; return 0; }
   done
-  return 0
+  return 1
 }
 _plugin zsh-autosuggestions/zsh-autosuggestions.zsh
-# 구문 강조는 다른 위젯이 모두 등록된 뒤 마지막에 로드한다
-_plugin zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+# 구문 강조는 다른 위젯이 모두 등록된 뒤 마지막에 로드한다.
+# fast-syntax-highlighting 이 없으면(apt) zsh-syntax-highlighting 을 쓴다.
+_plugin zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh \
+  || _plugin zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unfunction _plugin
 
 # ------------------------------------------------------------------------------
@@ -139,7 +157,8 @@ unfunction _plugin
 # ------------------------------------------------------------------------------
 # 10. 터미널 시작 인사 (DOTFILES_NO_GREETING=1 로 끌 수 있음)
 # ------------------------------------------------------------------------------
-if [[ -o login && -z $DOTFILES_NO_GREETING ]]; then
+# 로그인 셸(macOS 터미널, SSH)이거나 최상위 셸(Linux 터미널)일 때만 출력한다
+if [[ -z $DOTFILES_NO_GREETING ]] && [[ -o login || $SHLVL -le 1 ]]; then
   (( $+commands[fastfetch] )) && fastfetch
   (( $+commands[fortune] )) && { fortune; echo; }
 fi

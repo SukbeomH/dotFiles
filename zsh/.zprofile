@@ -9,6 +9,9 @@ for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbr
 done
 unset _brew
 
+# 최소 설치 Linux 는 LANG 이 비어 있어 한글과 아이콘이 깨진다
+[[ $OSTYPE == linux* && -z $LANG && -z $LC_ALL ]] && export LANG=C.UTF-8
+
 # 사용자 로컬 바이너리 (uv, pipx 등)
 export PATH="$HOME/.local/bin:$PATH"
 

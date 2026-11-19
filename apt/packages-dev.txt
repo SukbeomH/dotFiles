@@ -1,0 +1,12 @@
+# 선택: 개발 도구 (Brewfile.dev 에 대응)
+# 사용: ./install.sh --dev
+# kubectl, helm, k9s, kind 는 apt 기본 저장소에 없어 각 도구의 공식 설치 방법을 쓴다.
+
+build-essential
+cmake
+nodejs
+npm
+golang-go
+cargo
+skopeo
+pandoc

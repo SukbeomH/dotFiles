@@ -1,0 +1,29 @@
+# 코어: Debian / Ubuntu 에서 apt 로 설치하는 최소 구성 (Brewfile 에 대응)
+# 한 줄에 패키지 하나. 저장소에 없는 패키지는 install.sh 가 건너뛰고 알려 준다.
+
+# --- 셸 ---
+zsh
+zsh-autosuggestions
+zsh-syntax-highlighting     # fast-syntax-highlighting 은 apt 에 없어 이것으로 대체
+fzf
+direnv
+zoxide
+starship                    # Debian 13+ / Ubuntu 25.04+. 없으면 공식 설치 스크립트로 대체
+
+# --- 모던 CLI ---
+ripgrep
+fd-find                     # 실행 파일 이름이 fdfind → ~/.local/bin/fd 로 연결
+bat                         # 실행 파일 이름이 batcat → ~/.local/bin/bat 으로 연결
+eza                         # Debian 13+ / Ubuntu 24.04+
+
+# --- 기본 CLI ---
+git
+gh
+curl
+wget
+tree
+jq
+unzip
+ca-certificates
+fastfetch                   # Debian 13+ / Ubuntu 25.04+
+fortune-mod

@@ -62,6 +62,12 @@ if (( $+commands[eza] )); then
   alias ll='_eza -la --git'
   alias lt='_eza --tree --level=2'
 else
+  # GNU ls(Linux)와 BSD ls(macOS)는 색상 옵션이 다르다
+  if ls --color=auto -d . &>/dev/null; then
+    alias ls='ls --color=auto'
+  else
+    alias ls='ls -G'
+  fi
   alias ll='ls -lah'
 fi
 # cat 자리에서는 테두리·줄 번호 없이 구문 강조만 한다. 전체 장식은 bat 을 직접 쓴다.
