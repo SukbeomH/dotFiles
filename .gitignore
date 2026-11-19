@@ -1,2 +1,6 @@
 .DS_Store
-fonts/.DS_Store
+*.local
+# 폰트 바이너리는 저장소에 넣지 않는다 (Brewfile 의 cask 로 설치)
+*.ttf
+*.otf
+*.ttc

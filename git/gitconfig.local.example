@@ -1,0 +1,4 @@
+# ~/.gitconfig.local 예시. 저장소에 올리지 않는 개인 정보를 둔다.
+[user]
+	name = YOUR_NAME
+	email = YOUR_EMAIL

@@ -1,0 +1,19 @@
+# 선택: 개발 도구
+# 사용: ./install.sh --dev  또는  brew bundle --file=Brewfile.dev
+
+# --- 언어 런타임 ---
+brew "node"
+brew "go"
+brew "rust"
+
+# --- Kubernetes / 컨테이너 ---
+brew "kubernetes-cli"
+brew "helm"
+brew "kubectx"
+brew "k9s"
+brew "kind"
+brew "skopeo"
+
+# --- 문서 / 기타 ---
+brew "pandoc"
+brew "cmake"

@@ -1,143 +1,108 @@
-## Backup AND Restore
+# dotFiles
 
-모든 경로에서 현재 레포지토리를 사용할 수 있도록 설정합니다.
+새 맥을 받거나 포맷한 뒤 터미널 환경을 한 번에 되살리는 최소 구성입니다.
+zsh + starship 프롬프트, 플러그인, 폰트, 기본 패키지를 `install.sh` 하나로 적용합니다.
+
+## 빠른 시작
 
 ```zsh
-# Create the dotFile directory
-mkdir /Users/$USER/Desktop/dotFile
-
-# Move to the dotFile directory
-cd /Users/$USER/Desktop/dotFile
-
-# git clone the repository
-git clone https://github.com/SukbeomH/dotFiles.git .
-
-# pwd
-/Users/$USER/Desktop/dotFile
+xcode-select --install                 # git 이 없을 때만
+git clone --depth 1 https://github.com/SukbeomH/dotFiles.git ~/dotFiles
+cd ~/dotFiles
+./install.sh
 ```
 
-라고 가정하고 진행합니다.
+`--depth 1` 을 붙이면 예전 커밋에 들어 있던 폰트 바이너리(약 1.3GB)를 받지 않습니다.
 
-# Homebrew
+설치가 끝나면 두 파일을 채우고 새 터미널을 엽니다.
 
-### Homebrew를 사용하여 설치된 패키지를 백업합니다.
+- `~/.gitconfig.local`: git 이름과 이메일
+- `~/.zshrc.local`: 토큰, 사내 인증서 경로, 머신 전용 PATH 와 alias
 
-```zsh
-# Enable the Homebrew Bundle
-brew tap Homebrew/bundle
+## install.sh
 
-# Backup the Homebrew Bundle
-brew bundle dump
+여러 번 실행해도 안전합니다. 이미 있는 설정 파일은 `~/.dotfiles-backup/<시각>/` 으로 옮긴 뒤 심링크합니다.
 
-# Move the Brewfile to the current directory
-mv Brewfile /Users/$USER/Desktop/dotFile/homebrew
-```
+| 옵션 | 하는 일 |
+| --- | --- |
+| (없음) | Homebrew 설치, `Brewfile` 설치, 설정 심링크 |
+| `--dev` | `Brewfile.dev` (언어 런타임, Kubernetes 도구) 추가 설치 |
+| `--apps` | `Brewfile.apps` (Ghostty, VS Code 등 GUI 앱) 추가 설치 |
+| `--macos` | `macos.sh` 로 키 반복, Finder, Dock 기본값 적용 |
+| `--all` | 위 세 가지 모두 |
+| `--no-brew` | 패키지 설치 없이 심링크만 |
+| `--dry-run` | 바꾸지 않고 할 일만 출력 |
 
-### 복원하기 위해서는 다음과 같이 진행합니다.
+처음에는 `./install.sh --dry-run` 으로 무엇이 바뀌는지 확인할 수 있습니다.
 
-```zsh
-# Move to the Brewfile directory
-cd /Users/$USER/Desktop/dotFile/homebrew
+## 구성
 
-# Install the Homebrew Bundle
-brew bundle --file=/Users/$USER/Desktop/dotFile/homebrew/Brewfile
-```
+| 경로 | 연결 위치 | 내용 |
+| --- | --- | --- |
+| `zsh/.zshrc` | `~/.zshrc` | 히스토리, 자동완성, 플러그인, starship |
+| `zsh/.zprofile` | `~/.zprofile` | Homebrew 와 `~/.local/bin` PATH |
+| `zsh/aliases.zsh` | `.zshrc` 가 읽음 | git, kubectl alias |
+| `starship/starship.toml` | `~/.config/starship.toml` | 프롬프트 |
+| `fastfetch/config.jsonc` | `~/.config/fastfetch/config.jsonc` | 터미널 시작 화면 |
+| `git/.gitconfig` | `~/.gitconfig` | 공통 git 설정 (`~/.gitconfig.local` 을 include) |
+| `git/ignore` | `~/.config/git/ignore` | 전역 gitignore |
+| `ghostty/config` | `~/.config/ghostty/config` | Ghostty 터미널 (폰트, 색상, 창) || `Brewfile*` | | 패키지 목록 |
+| `macos.sh` | | macOS 기본 설정 |
 
-# Fonts
+### zsh 플러그인
 
-### 폰트를 백업합니다.
+플러그인 매니저 없이 Homebrew 로 설치한 것을 `.zshrc` 가 직접 읽습니다.
 
-```zsh
-# Copy the fonts to the current directory
-cp -r /Users/$USER/Library/Fonts /Users/$USER/Desktop/dotFile/fonts
-```
+- `zsh-autosuggestions`: 히스토리를 바탕으로 입력을 흐리게 제안합니다. `→` 로 수락합니다.
+- `zsh-fast-syntax-highlighting`: 명령줄 구문 강조
+- `fzf`: `Ctrl-R` 히스토리 검색, `Ctrl-T` 파일 검색, `Alt-C` 디렉터리 이동
+- `direnv`: 디렉터리별 `.envrc` 자동 로드. 처음이나 수정 뒤에는 `direnv allow .` 로 승인합니다.
+- `zoxide`: `z 일부이름` 으로 자주 가는 디렉터리 이동
 
-### 백업된 폰트를 복원합니다.
+### 모던 CLI
 
-```zsh
-# Copy the fonts to the Library directory
-cp -r /Users/$USER/Desktop/dotFile/fonts /Users/$USER/Library/Fonts
-```
+설치돼 있을 때만 기본 명령을 대체합니다.
 
-# Shell :: iTerm2
+| 도구 | 대체 | 설정 |
+| --- | --- | --- |
+| `ripgrep` (`rg`) | `grep -r` | `zsh/ripgreprc`: smart-case, 숨김 파일 포함, `.git` 제외 |
+| `fd` | `find` | fzf 의 `Ctrl-T`, `Alt-C` 탐색 백엔드 |
+| `bat` | `cat` | `cat` alias(구문 강조만, 테두리 없음), fzf `Ctrl-T` 미리보기 |
+| `eza` | `ls` | `ls`, `ll`, `lt`(트리) alias. 아이콘은 터미널 출력에만 붙음 |
 
-### iTerm2 설정을 백업합니다.
+원래 명령이 필요하면 `\cat`, `\ls` 처럼 역슬래시를 붙입니다.
 
-```zsh
-# Sync the iTerm2 settings to the dotFile directory
-cp -r /Users/$USER/Library/Preferences/com.googlecode.iterm2.plist /Users/$USER/Desktop/dotFile/iterm2
-```
+프롬프트가 느리면 `starship timings` 로 모듈별 시간을 확인합니다.
 
-### 백업된 iTerm2 설정을 복원합니다.
+플러그인이나 도구가 설치돼 있지 않으면 해당 줄만 건너뛰므로, 패키지 설치 전에도 셸은 오류 없이 뜹니다.
 
-```zsh
-# Sync the iTerm2 settings to the Library directory
-cp -r /Users/$USER/Desktop/dotFile/iterm2/com.googlecode.iterm2.plist /Users/$USER/Library/Preferences
-```
+### 폰트
 
-### 혹은 다음과 같이 진행합니다.
+폰트 파일은 저장소에 두지 않고 `Brewfile` 의 cask 로 설치합니다.
 
-- iTerm2 > Preferences > General > Settings
-  - Load settings from a custom folder or URL <= Check ✅
-  - Specify folder <= `/Users/$USER/Desktop/dotFile/iterm2`
-  - Save Current Settings to Folder <= Click 💾
-  - Save Changes <= **Automatically** ♻️
+| cask | 쓰는 곳 |
+| --- | --- |
+| `font-blex-mono-nerd-font` | 터미널 기본 폰트 (starship 아이콘 포함) |
+| `font-meslo-lg-nerd-font` | 터미널 보조, 에디터 폴백 |
+| `font-d2coding` | 에디터 한글 고정폭 |
+| `font-pretendard` | 문서와 UI 한글 |
 
-# Shell :: Alacritty
+cask 가 없는 [Monoplex KR](https://github.com/y-kim/monoplex) 은 필요할 때 릴리스에서 직접 내려받습니다.
 
-### Alacritty 설정을 백업합니다.
+## 머신 전용 설정과 시크릿
 
-```zsh
-# Copy the Alacritty settings to the dotFile directory
-cp -r /Users/$USER/.config/alacritty /Users/$USER/Desktop/dotFile/alacritty
-```
+이 저장소는 공개 저장소입니다. 토큰, 사내 주소, 인증서 경로는 저장소 파일에 쓰지 말고 `~/.zshrc.local` 에 둡니다.
+`*.local` 은 `.gitignore` 에 들어 있고, 예시는 `zsh/zshrc.local.example` 에 있습니다.
 
-### 백업된 Alacritty 설정을 복원합니다.
+터미널 시작 화면(fastfetch, fortune)을 끄려면 `~/.zshrc.local` 에 `DOTFILES_NO_GREETING=1` 을 넣습니다.
 
-```zsh
-# Copy the Alacritty settings to the config directory
-cp -r /Users/$USER/Desktop/dotFile/alacritty /Users/$USER/.config
-```
+## 설정 변경과 패키지 추가
 
-# Shell :: Zsh
+설정 파일은 심링크라서 `~/.zshrc` 를 고치면 곧바로 이 저장소의 변경이 됩니다. 커밋하고 푸시하면 끝입니다.
 
-### Zsh 설정을 백업합니다.
-
-```zsh
-# Copy the Zsh settings to the dotFile directory
-cp -r /Users/$USER/.zshrc /Users/$USER/Desktop/dotFile/zsh/.zshrc
-```
-
-### 백업된 Zsh 설정을 복원합니다.
+패키지를 추가할 때는 해당 `Brewfile` 에 한 줄을 넣고 `./install.sh` 를 다시 실행합니다.
+지금 머신에 설치된 것과 비교하려면 다음을 씁니다.
 
 ```zsh
-# Copy the Zsh settings to the home directory
-cp -r /Users/$USER/Desktop/dotFile/zsh/.zshrc /Users/$USER
-```
-
-# Shell :: FastFetch
-
-### FastFetch 설정을 백업합니다.
-
-```zsh
-# Copy the FastFetch settings to the dotFile directory
-cp -r /Users/sukbeom/.config/fastfetch /Users/sukbeom/Desktop/dotFile/fastfetch
-```
-
-# Script
-
-`backup.sh` 파일을 통해 백업을 진행합니다.
-
-```zsh
-sh /Users/$USER/Desktop/dotFile/backup.sh
-```
-
-### Crontab을 사용하여 매일 백업합니다.
-
-```zsh
-# Open the crontab
-crontab -e
-
-# Add the following line (Backup the Homebrew Bundle everyday at 12:00)
-0 12 * * * /bin/sh /Users/$USER/Desktop/dotFile/backup.sh
+brew bundle check --file=Brewfile --verbose
 ```

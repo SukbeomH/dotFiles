@@ -1,0 +1,16 @@
+# 공통 git 설정. 이름·이메일 등 개인 정보는 ~/.gitconfig.local 에 둔다.
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[core]
+	autocrlf = input
+	quotepath = false
+[diff]
+	colorMoved = default
+[include]
+	path = ~/.gitconfig.local

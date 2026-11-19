@@ -1,0 +1,39 @@
+# ~/.zshrc.local 예시. install.sh 가 처음 한 번 ~/.zshrc.local 로 복사한다.
+# 이 머신에서만 쓰는 값과 시크릿은 여기에 두고, 저장소에는 올리지 않는다.
+
+# --- 시크릿 ---
+# export HF_TOKEN=""
+
+# --- 사내 인증서 / 프록시 ---
+# export SSL_CERT_FILE="$HOME/Documents/cert/combined-ca-bundle.pem"
+# export REQUESTS_CA_BUNDLE="$SSL_CERT_FILE"
+
+# --- 개별 도구 PATH ---
+# export PATH="$HOME/go/bin:$HOME/.cargo/bin:$PATH"
+# export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# export PNPM_HOME="$HOME/Library/pnpm"; path=("$PNPM_HOME" $path)
+
+# --- nvm (지연 로드) ---
+# nvm.sh 를 매번 읽으면 1초 넘게 걸린다. 기본 버전의 node 만 PATH 에 넣고,
+# nvm 은 처음 호출할 때 로드한다. 기본 버전을 못 찾으면 바로 로드한다.
+# export NVM_DIR="$HOME/.nvm"
+# _nvm_bin=() _nvm_default=
+# [[ -r $NVM_DIR/alias/default ]] && read -r _nvm_default < "$NVM_DIR/alias/default"
+# [[ -n $_nvm_default ]] && _nvm_bin=($NVM_DIR/versions/node/v${_nvm_default#v}*/bin(NnOn[1]))
+# if (( $#_nvm_bin )); then
+#   path=($_nvm_bin $path)
+#   nvm() { unfunction nvm; . "$NVM_DIR/nvm.sh"; nvm "$@" }
+# else
+#   . "$NVM_DIR/nvm.sh"
+# fi
+# unset _nvm_bin _nvm_default
+
+# --- 추가 자동완성 (캐시) ---
+# _cached_source bun completions
+
+# --- 머신 전용 alias ---
+# alias tm='task-master'
+
+# --- 시작 인사(fastfetch/fortune) 끄기 ---
+# 이 값은 .zshrc 가 인사를 출력하기 전에 읽힌다.
+# DOTFILES_NO_GREETING=1

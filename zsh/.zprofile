@@ -1,21 +1,16 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# 로그인 셸에서 한 번만 실행된다. PATH 처럼 상속되는 환경만 둔다.
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-# pyenv-virtualenv
-eval "$(pyenv virtualenv-init -)"
+# Homebrew (Apple Silicon → Intel → Linuxbrew 순으로 탐지)
+for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+  if [[ -x $_brew ]]; then
+    eval "$($_brew shellenv)"
+    break
+  fi
+done
+unset _brew
 
-# fastfetch
-fastfetch
+# 사용자 로컬 바이너리 (uv, pipx 등)
+export PATH="$HOME/.local/bin:$PATH"
 
-# fortune
-fortune
-
-echo ""
-
-
-# Added by OrbStack: command-line tools and integration
-# Comment this line if you don't want it to be added again.
-# source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+# 머신 전용 설정 (저장소에 올리지 않음)
+[[ -f $HOME/.zprofile.local ]] && source "$HOME/.zprofile.local"
