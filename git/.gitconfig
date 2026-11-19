@@ -12,5 +12,9 @@
 	quotepath = false
 [diff]
 	colorMoved = default
+# delta 가 설치돼 있으면 zsh 가 GIT_PAGER=delta 로 연결한다 (없으면 이 섹션은 무시됨)
+[delta]
+	navigate = true
+	line-numbers = true
 [include]
 	path = ~/.gitconfig.local

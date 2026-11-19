@@ -49,18 +49,26 @@ alias ktopn='kubectl top nodes'
 alias ktopp='kubectl top pods'
 alias kx='kubectl config use-context'
 
-# 모던 CLI (설치돼 있을 때만 기본 명령을 대체)
-if (( $+commands[eza] )); then
-  # 아이콘은 터미널에 직접 출력할 때만 붙인다 (파이프 출력에는 섞이지 않게).
-  # eza 0.23 의 --icons=auto 는 터미널에서도 아이콘을 내지 않아 직접 판별한다.
-  _eza() {
+# 모던 CLI 로 기본 명령 대체 (설치돼 있을 때만).
+# 사람이 터미널에서 직접 쓰는 셸에만 적용한다. 터미널이 붙지 않은 셸(스크립트 실행기,
+# AI 코딩 에이전트가 떠 가는 셸 설정 등)까지 alias 가 들어가면, 기본 명령의 출력을
+# 기대하는 쪽이 조용히 깨진다. grep→rg, find→fd 는 옵션과 동작이 달라 대체하지 않는다.
+if [[ -t 0 && -t 1 ]] && (( $+commands[eza] )); then
+  __eza_ls() {
+    # 아이콘은 터미널에 직접 출력할 때만 붙인다 (파이프 출력에는 섞이지 않게).
+    # eza 0.23 의 --icons=auto 는 터미널에서도 아이콘을 내지 않아 직접 판별한다.
     local icons=never
     [[ -t 1 ]] && icons=always
-    command eza --icons=$icons "$@"
+    if [[ -t 0 ]]; then
+      command eza --icons=$icons "$@"
+    else
+      # stdin 이 파이프면 eza 가 파일 이름을 stdin 에서 읽으려 해 빈 출력이 된다
+      command eza --icons=$icons "$@" </dev/tty
+    fi
   }
-  alias ls='_eza'
-  alias ll='_eza -la --git'
-  alias lt='_eza --tree --level=2'
+  alias ls='__eza_ls'
+  alias ll='__eza_ls -la --git'
+  alias lt='__eza_ls --tree --level=2'
 else
   # GNU ls(Linux)와 BSD ls(macOS)는 색상 옵션이 다르다
   if ls --color=auto -d . &>/dev/null; then
@@ -71,7 +79,8 @@ else
   alias ll='ls -lah'
 fi
 # cat 자리에서는 테두리·줄 번호 없이 구문 강조만 한다. 전체 장식은 bat 을 직접 쓴다.
-(( $+commands[bat] )) && alias cat='bat --paging=never --style=plain'
+# 파이프로 넘길 때는 bat 이 알아서 색 없이 원문만 낸다.
+[[ -t 0 && -t 1 ]] && (( $+commands[bat] )) && alias cat='bat --paging=never --style=plain'
 
 # 기타
 alias reload='exec zsh -l'

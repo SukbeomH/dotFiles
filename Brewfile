@@ -14,6 +14,7 @@ brew "ripgrep"                        # grep -r 대체 (rg)
 brew "fd"                             # find 대체, fzf 탐색 백엔드
 brew "bat"                            # cat 대체, fzf 미리보기
 brew "eza"                            # ls 대체
+brew "git-delta"                      # git diff 출력 강조 (delta)
 
 # --- 기본 CLI ---
 brew "git"

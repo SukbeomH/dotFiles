@@ -94,6 +94,17 @@ if (( $+commands[fzf] )); then
   fi
 fi
 
+# git diff / log -p / show 를 delta 로 본다 (구문 강조, 줄 번호).
+# gitconfig 의 core.pager 로 두면 delta 가 없는 머신에서 git 이 깨지므로 환경 변수로 건다.
+# 세부 옵션은 git/.gitconfig 의 [delta] 에 있다.
+(( $+commands[delta] )) && export GIT_PAGER=delta
+
+# man 페이지를 bat 으로 색칠해서 본다
+if (( $+commands[bat] && $+commands[col] )); then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export MANROFFOPT=-c
+fi
+
 # ripgrep 기본 옵션
 [[ -f $DOTFILES_ZSH/ripgreprc ]] && export RIPGREP_CONFIG_PATH="$DOTFILES_ZSH/ripgreprc"
 

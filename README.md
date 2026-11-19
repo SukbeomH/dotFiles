@@ -58,7 +58,7 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 | `fd`, `bat` | 실행 파일이 `fdfind`, `batcat` 이라 `~/.local/bin/fd`, `~/.local/bin/bat` 으로 연결합니다 |
 | `starship` | apt 에 없는 배포판(Debian 12, Ubuntu 24.04)은 공식 스크립트로 `~/.local/bin` 에 설치합니다 |
 | `uv` | apt 에 없어 공식 스크립트로 `~/.local/bin` 에 설치합니다 |
-| `eza`, `fastfetch` | 저장소에 없는 배포판에서는 건너뜁니다. `ls` 는 기본 `ls`, 시작 화면은 생략됩니다 |
+| `eza`, `fastfetch`, `git-delta` | 저장소에 없는 배포판(Debian 12 등)에서는 건너뜁니다. `ls` 와 `git diff` 는 기본 동작, 시작 화면은 생략됩니다 |
 | `fzf` | 0.48 미만은 패키지에 든 키 바인딩 스크립트를 읽습니다 |
 | 폰트 | 서버에는 필요 없습니다. 폰트는 접속하는 쪽 터미널에 있으면 됩니다 |
 
@@ -116,6 +116,16 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 | `eza` | `ls` | `ls`, `ll`, `lt`(트리) alias. 아이콘은 터미널 출력에만 붙음 |
 
 원래 명령이 필요하면 `\cat`, `\ls` 처럼 역슬래시를 붙입니다.
+
+`ls`, `cat` 대체는 터미널에서 직접 쓰는 셸에만 적용됩니다. 스크립트나 AI 에이전트의 셸에서는 원래 명령 그대로입니다.
+`grep` 과 `find` 는 옵션과 동작이 달라 alias 로 덮지 않고 `rg`, `fd` 를 따로 씁니다.
+
+명령을 덮지 않고 출력만 바꾸는 확장도 있습니다.
+
+| 대상 | 도구 | 동작 |
+| --- | --- | --- |
+| `git diff`, `git log -p`, `git show` | `delta` | 구문 강조와 줄 번호. `n` / `N` 으로 파일 사이 이동 |
+| `man` | `bat` | man 페이지에 색 표시 |
 
 프롬프트가 느리면 `starship timings` 로 모듈별 시간을 확인합니다.
 

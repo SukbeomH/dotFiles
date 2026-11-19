@@ -15,6 +15,9 @@ ripgrep
 fd-find                     # 실행 파일 이름이 fdfind → ~/.local/bin/fd 로 연결
 bat                         # 실행 파일 이름이 batcat → ~/.local/bin/bat 으로 연결
 eza                         # Debian 13+ / Ubuntu 24.04+
+git-delta                   # git diff 출력 강조 (delta)
+man-db
+bsdextrautils               # col: man 페이지를 bat 으로 볼 때 필요
 
 # --- 기본 CLI ---
 git
