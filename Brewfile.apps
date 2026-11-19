@@ -1,10 +1,7 @@
 # 선택: macOS GUI 앱
 # 사용: ./install.sh --apps  또는  brew bundle --file=Brewfile.apps
 
-cask "ghostty"              # 터미널 (설정: ghostty/config)
 cask "visual-studio-code"
-cask "google-chrome"
-cask "maccy"                # 클립보드 히스토리
 cask "betterdisplay"
 cask "macs-fan-control"
 cask "dbeaver-community"

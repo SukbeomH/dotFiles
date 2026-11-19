@@ -17,8 +17,8 @@ usage() {
   cat <<'EOF'
 사용법: ./install.sh [옵션]
 
-  --dev        개발 도구도 설치 (Brewfile.dev / apt/packages-dev.txt)
-  --apps       macOS GUI 앱도 설치 (Brewfile.apps)
+  --dev        추가 개발 도구 설치 (Brewfile.dev / apt/packages-dev.txt)
+  --apps       추가 macOS GUI 앱 설치 (Brewfile.apps)
   --macos      macos.sh (macOS 기본 설정) 적용
   --fonts      Linux: Nerd Font 를 ~/.local/share/fonts 에 설치
                (macOS 는 Brewfile 의 cask 로 항상 설치)

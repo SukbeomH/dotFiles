@@ -2,7 +2,6 @@
 # 사용: ./install.sh --dev  또는  brew bundle --file=Brewfile.dev
 
 # --- 언어 런타임 ---
-brew "node"
 brew "go"
 brew "rust"
 

@@ -1,4 +1,4 @@
-# 코어: Debian / Ubuntu 에서 apt 로 설치하는 최소 구성 (Brewfile 에 대응)
+# 기본 구성: Debian / Ubuntu 에서 apt 로 설치 (Brewfile 에 대응)
 # 한 줄에 패키지 하나. 저장소에 없는 패키지는 install.sh 가 건너뛰고 알려 준다.
 
 # --- 셸 ---
@@ -22,6 +22,8 @@ bsdextrautils               # col: man 페이지를 bat 으로 볼 때 필요
 # --- 기본 CLI ---
 git
 gh
+nodejs
+npm
 curl
 wget
 tree

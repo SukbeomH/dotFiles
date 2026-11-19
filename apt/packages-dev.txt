@@ -4,8 +4,6 @@
 
 build-essential
 cmake
-nodejs
-npm
 golang-go
 cargo
 skopeo

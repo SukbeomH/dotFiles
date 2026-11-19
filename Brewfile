@@ -1,4 +1,4 @@
-# 코어: 어떤 머신에서든 설치하는 최소 구성
+# 기본 구성: CLI, macOS 앱과 폰트
 # 사용: brew bundle --file=Brewfile
 
 # --- 셸 ---
@@ -19,6 +19,7 @@ brew "git-delta"                      # git diff 출력 강조 (delta)
 # --- 기본 CLI ---
 brew "git"
 brew "gh"
+brew "node"                           # Node.js 와 npm
 brew "uv"                             # Python 버전·패키지 관리
 brew "tree"
 brew "wget"
@@ -26,8 +27,10 @@ brew "yq"
 brew "fastfetch"
 brew "fortune"
 
-# --- 폰트 (macOS) ---
+# --- 앱과 폰트 (macOS) ---
 if OS.mac?
+  cask "ghostty"                      # 터미널 (설정: ghostty/config)
+  cask "maccy"                        # 클립보드 히스토리
   cask "font-blex-mono-nerd-font"     # 터미널 기본 폰트
   cask "font-meslo-lg-nerd-font"      # 터미널 보조 / 에디터 폴백
   cask "font-d2coding"                # 에디터 한글 고정폭

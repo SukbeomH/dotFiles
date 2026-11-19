@@ -1,8 +1,11 @@
 # dotFiles
 
-새 컴퓨터를 받거나 포맷한 뒤 터미널 환경을 한 번에 되살리는 최소 구성입니다.
+새 컴퓨터를 받거나 포맷한 뒤 터미널 환경과 자주 쓰는 도구를 한 번에 되살리는 구성입니다.
 zsh + starship 프롬프트, 플러그인, 폰트, 기본 패키지를 `install.sh` 하나로 적용합니다.
 OS 를 감지해 macOS 는 Homebrew, Debian / Ubuntu 는 apt 로 설치합니다.
+
+기본 구성에는 Node.js, npm, uv 와 bat, eza, fd, ripgrep 등의 CLI 가 포함됩니다.
+macOS 에서는 Ghostty 와 Maccy 도 기본으로 설치합니다.
 
 ## 빠른 시작
 
@@ -39,8 +42,8 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 | 옵션 | macOS | Debian / Ubuntu |
 | --- | --- | --- |
 | (없음) | Homebrew 설치, `Brewfile` 설치, 설정 심링크 | `apt/packages.txt` 설치, 설정 심링크 |
-| `--dev` | `Brewfile.dev` | `apt/packages-dev.txt` |
-| `--apps` | `Brewfile.apps` (Ghostty, VS Code 등) | 해당 없음 |
+| `--dev` | 추가 개발 도구 (`Brewfile.dev`) | `apt/packages-dev.txt` |
+| `--apps` | 추가 GUI 앱 (`Brewfile.apps`, VS Code 등) | 해당 없음 |
 | `--macos` | `macos.sh` 로 키 반복, Finder, Dock 기본값 적용 | 해당 없음 |
 | `--fonts` | 해당 없음 (cask 로 항상 설치) | Nerd Font 를 `~/.local/share/fonts` 에 설치 |
 | `--all` | 위 항목 중 해당 OS 에 맞는 것 모두 | 왼쪽과 같음 |
@@ -58,6 +61,7 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 | `fd`, `bat` | 실행 파일이 `fdfind`, `batcat` 이라 `~/.local/bin/fd`, `~/.local/bin/bat` 으로 연결합니다 |
 | `starship` | apt 에 없는 배포판(Debian 12, Ubuntu 24.04)은 공식 스크립트로 `~/.local/bin` 에 설치합니다 |
 | `uv` | apt 에 없어 공식 스크립트로 `~/.local/bin` 에 설치합니다 |
+| Node.js, npm | 배포판의 apt 저장소 버전을 설치합니다 |
 | `eza`, `fastfetch`, `git-delta` | 저장소에 없는 배포판(Debian 12 등)에서는 건너뜁니다. `ls` 와 `git diff` 는 기본 동작, 시작 화면은 생략됩니다 |
 | `fzf` | 0.48 미만은 패키지에 든 키 바인딩 스크립트를 읽습니다 |
 | 폰트 | 서버에는 필요 없습니다. 폰트는 접속하는 쪽 터미널에 있으면 됩니다 |
@@ -91,7 +95,8 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 | `fastfetch/config.jsonc` | `~/.config/fastfetch/config.jsonc` | 터미널 시작 화면 |
 | `git/.gitconfig` | `~/.gitconfig` | 공통 git 설정 (`~/.gitconfig.local` 을 include) |
 | `git/ignore` | `~/.config/git/ignore` | 전역 gitignore |
-| `ghostty/config` | `~/.config/ghostty/config` | Ghostty 터미널 (폰트, Catppuccin Macchiato 색상, 창) || `Brewfile*` | | macOS 패키지 목록 |
+| `ghostty/config` | `~/.config/ghostty/config` | Ghostty 터미널 (폰트, Catppuccin Macchiato 색상, 창) |
+| `Brewfile*` | | macOS 패키지 목록 |
 | `apt/*.txt` | | Debian / Ubuntu 패키지 목록 |
 | `macos.sh` | | macOS 기본 설정 |
 
