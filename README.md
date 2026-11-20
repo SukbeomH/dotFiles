@@ -80,6 +80,7 @@ chsh -s "$(command -v zsh)"            # 기본 셸을 zsh 로
 | apt 패키지 하나가 설치 불가 | 일괄 설치가 취소됨 | 자동으로 패키지별 재시도, 실패한 것만 경고 |
 | macOS 에 Xcode Command Line Tools 없음 | 설치 창을 띄우고 종료 | 설치를 마친 뒤 다시 실행 |
 | 앱이나 폰트를 이미 수동으로 설치함 | `brew bundle` 이 해당 cask 에서 실패 | 무시하거나 `brew install --cask --force <이름>` |
+| zsh 자동완성 경로에 쓰기 권한이 열려 있음 | 해당 경로의 자동완성을 건너뜀 | macOS 기본 설치는 본인 소유의 Homebrew `share` 디렉터리에서 그룹 및 기타 사용자 쓰기 권한을 제거합니다. 문제가 남으면 zsh 에서 `compaudit` 로 경로를 확인하세요 |
 | `sudo ./install.sh` 로 실행 | 설정이 root 계정에 연결됨 | sudo 없이 다시 실행 |
 | 최소 설치 Linux 에 UTF-8 로케일 없음 | 한글과 아이콘이 깨짐 | `LANG` 이 비어 있으면 `C.UTF-8` 로 자동 설정 |
 

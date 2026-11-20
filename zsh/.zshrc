@@ -51,7 +51,8 @@ setopt INTERACTIVE_COMMENTS
 [[ -d $HOME/.zsh/completion ]] && fpath=("$HOME/.zsh/completion" $fpath)
 
 autoload -Uz compinit
-compinit
+# 권한이 안전하지 않은 자동완성 경로는 제외하고 나머지는 초기화한다.
+compinit -i
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'

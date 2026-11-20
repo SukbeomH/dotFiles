@@ -128,6 +128,29 @@ detect_pkg_manager() {
 # ------------------------------------------------------------------------------
 # 패키지: Homebrew (macOS, Linuxbrew)
 # ------------------------------------------------------------------------------
+fix_brew_completion_permissions() {
+  local prefix share mode
+  if ! prefix="$("$1" --prefix)" || [[ "$prefix" != /* || "$prefix" == / ]]; then
+    warn "Homebrew 경로를 확인할 수 없어 zsh 자동완성 권한 점검을 건너뜁니다"
+    return
+  fi
+  share="$prefix/share"
+  [[ -d "$share/zsh/site-functions" ]] || return 0
+  if ! mode="$(stat -Lf '%Lp' "$share")"; then
+    warn "$share 의 권한을 확인하지 못했습니다 (zsh 에서 compaudit 실행)"
+    return
+  fi
+  (( (8#$mode & 0022) != 0 )) || return 0
+
+  # 현재 사용자가 소유한 실제 디렉터리만 변경한다.
+  if [[ -L "$share" || ! -O "$share" ]]; then
+    warn "$share 의 그룹 또는 기타 사용자 쓰기 권한을 관리자에게 확인하세요 (zsh 에서 compaudit 실행)"
+    return
+  fi
+  info "Homebrew zsh 자동완성 권한 수정: $share"
+  run chmod go-w "$share" || warn "$share 의 권한을 수정하지 못했습니다 (zsh 에서 compaudit 실행)"
+}
+
 install_with_brew() {
   if [[ "$OS" == "Darwin" ]] && ! xcode-select -p >/dev/null 2>&1; then
     info "Xcode Command Line Tools 가 필요합니다"
@@ -163,6 +186,9 @@ install_with_brew() {
     # 일부 패키지가 실패해도(이미 수동 설치된 앱 등) 설정 연결까지는 진행한다
     run brew bundle --file="$DOTFILES/$bundle" || warn "$bundle 의 일부 패키지 설치 실패 (위 brew 출력 확인)"
   done
+  if [[ "$OS" == "Darwin" && -n "$brew_bin" ]]; then
+    fix_brew_completion_permissions "$brew_bin"
+  fi
 }
 
 # ------------------------------------------------------------------------------
