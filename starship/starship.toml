@@ -10,8 +10,7 @@
 format = """
 [╭─](overlay0) $username$hostname$localip\
 [──](overlay0) $shell \
-[──](overlay0) ${custom.cpu} [─](overlay0) $memory_usage [─](overlay0) ${custom.disk} \
-$battery\
+[──](overlay0) ${custom.cpu}$memory_usage${custom.disk}$battery\
 [──╌╌](overlay0) $time
 [│](overlay0) \
 [](red)\
@@ -77,12 +76,13 @@ description = "1분 평균 부하 / 코어 수"
 when = true
 shell = ["sh"]
 command = '''n=$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1); if [ -r /proc/loadavg ]; then l=$(cut -d" " -f1 /proc/loadavg); else l=$(LC_ALL=C uptime | sed "s/.*load averages*: *//; s/,//g" | cut -d" " -f1); fi; awk -v l="$l" -v n="$n" 'BEGIN { printf "%d%%", (l / n) * 100 }' '''
-format = "[CPU](bold peach) [$output](peach)"
+# 값이 비면(부팅 직후 명령이 시간 초과되는 경우 등) 이름과 구분선까지 숨긴다
+format = "([CPU](bold peach) [$output](peach) [─](overlay0) )"
 
 [memory_usage]
 disabled = false
 threshold = -1
-format = "[RAM](bold mauve) [$ram_pct](mauve)"
+format = "[RAM](bold mauve) [$ram_pct](mauve) "
 
 # 디스크: 루트 볼륨 사용률. macOS 는 사용자 데이터가 있는 볼륨을 본다.
 [custom.disk]
@@ -90,7 +90,7 @@ description = "루트 볼륨 사용률"
 when = true
 shell = ["sh"]
 command = """d=/; [ -d /System/Volumes/Data ] && d=/System/Volumes/Data; df -P "$d" | awk 'NR==2 { print $5 }'"""
-format = "[DISK](bold yellow) [$output](yellow)"
+format = "([─](overlay0) [DISK](bold yellow) [$output](yellow) )"
 
 # 배터리가 없는 머신에서는 구분선까지 통째로 사라진다
 [battery]

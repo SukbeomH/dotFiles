@@ -164,6 +164,10 @@ unfunction _plugin
 # zoxide: `z 일부이름` 으로 자주 가는 디렉터리 이동, `zi` 로 fzf 선택.
 # cd 훅을 거는 도구라 뒤쪽, starship 바로 앞에 둔다.
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+# 부팅 직후처럼 네트워크가 없거나 명령이 느릴 때 starship 이 프롬프트 위에 [WARN] 을
+# 쏟아내지 않게 한다. 해당 항목은 그 프롬프트에서만 빠진다.
+# 설정을 고치다 원인을 봐야 하면: STARSHIP_LOG=warn starship prompt
+export STARSHIP_LOG=${STARSHIP_LOG:-error}
 (( $+commands[starship] )) && eval "$(starship init zsh)"
 
 # ------------------------------------------------------------------------------
